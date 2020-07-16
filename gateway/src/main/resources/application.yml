@@ -15,9 +15,24 @@ spring:
         - id: out-patient
           uri: lb://out-patient
           predicates:
-            - Path=/** #路径配置
+            - Path=/out/** #路径配置
           filters:
             - GwSwaggerHeaderFilter
+            - StripPrefix=1
+        - id: doctor-server
+          uri: lb://doctor-server
+          predicates:
+            - Path=/doct/** #路径配置
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
+        - id: drug
+          uri: lb://drug
+          predicates:
+            - Path=/drg/** #路径配置
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
       # 配置跨域
       globalcors:
         cors-configurations:
@@ -57,5 +72,5 @@ gateway:
       - /webjars/springfox-swagger-ui/
       - /swagger-resources/
       - /v2/api-docs
-      - /api/tokens
+      - /out/api/tokens
       - /csrf

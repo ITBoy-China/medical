@@ -25,9 +25,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public int register(Patient patient) {
-        return patientMapper.insert(patient);
-    }
+    public int register(Patient patient) {  return patientMapper.insert(patient);   }
 
     @Override
     public List<Patient> getAllPatient() {

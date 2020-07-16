@@ -1,0 +1,45 @@
+server:
+  port: 9091
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.100.90.185:3306/medical
+    username: ncu
+    password: ncu2017
+  application:
+    name: drug-service
+
+#mybatis设置
+#如果仅仅是用通用mapper的话，驼峰命名是默认开启的，但如果要与
+#xml方式相结合的话，这里就要手动配置
+#mybatis.configuration.map-underscore-to-camel-case=true
+#配置xml位置
+#mybatis.mapper-locations=classpath:mappers/*.xml
+#配置别名
+#mybatis.type-aliases-package=com.example.mapperdemo.entity
+mybatis:
+  type-aliases-package: com.ncu.drug.pojo
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+    # 服务注册中心也会将自己作为客户端来尝试注册自己,为true（默认）时自动生效
+    register-with-eureka: true
+    # 检索服务选项，当设置为True(默认值)时，会进行服务检索,注册中心不负责检索服务。
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.doctor.mapper.RecordMapper">
+  <resultMap id="ResultMap" type="com.ncu.pojo.common.Check_Record">
+    <id column="record_id" jdbcType="VARCHAR" property="recordId" />
+    <result column="employee_id" jdbcType="VARCHAR" property="operatorName" />
+    <result column="medical_list_id" jdbcType="VARCHAR" property="medicalListId" />
+    <result column="record_date" jdbcType="TIMESTAMP" property="recordDate" />
+    <result column="drug_id" jdbcType="VARCHAR" property="drugName" />
+    <result column="pay_count" jdbcType="INTEGER" property="payCount" />
+    <result column="pay_status" jdbcType="CHAR" property="payStatus" />
+      <association property="medicalListInfo"  javaType="com.ncu.pojo.common.MedicalListInfo" >
+          <id column="medical_list_id" jdbcType="VARCHAR" property="medicalListId" />
+          <result column="employee_id" jdbcType="VARCHAR" property="doctorName" />
+          <result column="patient_id" jdbcType="VARCHAR" property="patientName" />
+          <result column="check_id" jdbcType="VARCHAR" property="outpatientId" />
+          <result column="remark" jdbcType="VARCHAR" property="remark" />
+          <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
+      </association>
+
+  </resultMap>
+
+  <insert id="insert" parameterType="com.ncu.pojo.common.Check_Record">
+    insert into check_purchase_records (record_id, employee_id,medical_list_id,
+      record_date, drug_id, pay_count, 
+      pay_status)
+    values (#{recordId},
+     (SELECT employee_id from employee_info where name = #{operatorName}),
+     #{medicalListId},
+      #{recordDate},
+       (SELECT drug_id from drug_info where drug_name = #{drugName}),
+       #{payCount},
+      #{payStatus})
+  </insert>
+
+</mapper>

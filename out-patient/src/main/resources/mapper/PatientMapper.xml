@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ncu.outpatient.mapper.PatientMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.pojo.common.Patient">
-    <id column="patient_id" jdbcType="VARCHAR" property="patientId" />
-    <result column="patient_name" jdbcType="VARCHAR" property="patientName" />
-    <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
-    <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="patient_feature" jdbcType="VARCHAR" property="patientFeature" />
-    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.ncu.pojo.common.Patient">
+        <id column="patient_id" jdbcType="VARCHAR" property="patientId" />
+        <result column="patient_name" jdbcType="VARCHAR" property="patientName" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+        <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="patient_feature" jdbcType="VARCHAR" property="patientFeature" />
+        <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
     patient_id, patient_name, age, sex, birth, bank_card, phone, patient_feature, identity_card, 
     address, del_flag, remark, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from patient_info
-    where patient_id = #{patientId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from patient_info
+        where patient_id = #{patientId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from patient_info
     where patient_id = #{patientId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.ncu.pojo.common.Patient">
+    <insert id="insert" parameterType="com.ncu.pojo.common.Patient">
     insert into patient_info (patient_id, patient_name, age, 
       sex, birth, bank_card, 
       phone, patient_feature, identity_card, 
@@ -42,134 +42,134 @@
       #{address,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.pojo.common.Patient">
-    insert into patient_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="patientId != null">
-        patient_id,
-      </if>
-      <if test="patientName != null">
-        patient_name,
-      </if>
-      <if test="age != null">
-        age,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="birth != null">
-        birth,
-      </if>
-      <if test="bankCard != null">
-        bank_card,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="patientFeature != null">
-        patient_feature,
-      </if>
-      <if test="identityCard != null">
-        identity_card,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="delFlag != null">
-        del_flag,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="patientId != null">
-        #{patientId,jdbcType=VARCHAR},
-      </if>
-      <if test="patientName != null">
-        #{patientName,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="birth != null">
-        #{birth,jdbcType=TIMESTAMP},
-      </if>
-      <if test="bankCard != null">
-        #{bankCard,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="patientFeature != null">
-        #{patientFeature,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        #{identityCard,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.pojo.common.Patient">
-    update patient_info
-    <set>
-      <if test="patientName != null">
-        patient_name = #{patientName,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="birth != null">
-        birth = #{birth,jdbcType=TIMESTAMP},
-      </if>
-      <if test="bankCard != null">
-        bank_card = #{bankCard,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="patientFeature != null">
-        patient_feature = #{patientFeature,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        identity_card = #{identityCard,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=CHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where patient_id = #{patientId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.pojo.common.Patient">
+    <insert id="insertSelective" parameterType="com.ncu.pojo.common.Patient">
+        insert into patient_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">
+                patient_id,
+            </if>
+            <if test="patientName != null">
+                patient_name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="bankCard != null">
+                bank_card,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="patientFeature != null">
+                patient_feature,
+            </if>
+            <if test="identityCard != null">
+                identity_card,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">
+                #{patientId,jdbcType=VARCHAR},
+            </if>
+            <if test="patientName != null">
+                #{patientName,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null">
+                #{birth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bankCard != null">
+                #{bankCard,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="patientFeature != null">
+                #{patientFeature,jdbcType=VARCHAR},
+            </if>
+            <if test="identityCard != null">
+                #{identityCard,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ncu.pojo.common.Patient">
+        update patient_info
+        <set>
+            <if test="patientName != null">
+                patient_name = #{patientName,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null">
+                birth = #{birth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bankCard != null">
+                bank_card = #{bankCard,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="patientFeature != null">
+                patient_feature = #{patientFeature,jdbcType=VARCHAR},
+            </if>
+            <if test="identityCard != null">
+                identity_card = #{identityCard,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where patient_id = #{patientId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ncu.pojo.common.Patient">
     update patient_info
     set patient_name = #{patientName,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
@@ -185,24 +185,24 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where patient_id = #{patientId,jdbcType=VARCHAR}
   </update>
-  <select id="findAll" resultMap="BaseResultMap">
+    <select id="findAll" resultMap="BaseResultMap">
       select * from patient_info
   </select>
 
-  <!--批量插入患者-->
-  <insert id="insertBatch" parameterType="java.util.List">
-    insert into patient_info values
-    <foreach collection="patientList" item="patient" index="index" separator=",">
-      (#{patient.patientId},#{patient.patientName},#{patient.age},#{patient.sex},
-      #{patient.birth},#{patient.bankCard},#{patient.phone},#{patient.patientFeature},
-      #{patient.identityCard},#{patient.address},#{patient.delFlag},#{patient.remark},#{patient.updateTime})
-    </foreach>
-  </insert>
-  <!--批量删除患者-->
-  <delete id="deleteBatch" parameterType="java.util.List">
-    delete from patient_info where patient_id in
-    <foreach collection="ids" item="id" open="(" close=")" index="index" separator=",">
-      #{id}
-    </foreach>
-  </delete>
+    <!--批量插入患者-->
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into patient_info values
+        <foreach collection="patientList" item="patient" index="index" separator=",">
+            (#{patient.patientId},#{patient.patientName},#{patient.age},#{patient.sex},
+            #{patient.birth},#{patient.bankCard},#{patient.phone},#{patient.patientFeature},
+            #{patient.identityCard},#{patient.address},#{patient.delFlag},#{patient.remark},#{patient.updateTime})
+        </foreach>
+    </insert>
+    <!--批量删除患者-->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from patient_info where patient_id in
+        <foreach collection="ids" item="id" open="(" close=")" index="index" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

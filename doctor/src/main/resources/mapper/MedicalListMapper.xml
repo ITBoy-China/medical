@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.doctor.mapper.MedicalListMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.pojo.common.MedicalListInfo">
+    <id column="medical_list_id" jdbcType="VARCHAR" property="medicalListId" />
+    <result column="employee_id" jdbcType="VARCHAR" property="doctorName" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientName" />
+    <result column="outpatient_id" jdbcType="VARCHAR" property="outpatientId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
+      <collection property="check_recordList" ofType="com.ncu.pojo.common.Check_Record"
+      resultMap="com.ncu.doctor.mapper.RecordMapper.ResultMap" >
+      <id column="record_id" jdbcType="VARCHAR" property="recordId" />
+      <result column="employee_id" jdbcType="VARCHAR" property="operatorName" />
+      <result column="medical_list_id" jdbcType="VARCHAR" property="medicalListId" />
+      <result column="record_date" jdbcType="TIMESTAMP" property="recordDate" />
+      <result column="drug_id" jdbcType="VARCHAR" property="drugName" />
+      <result column="pay_count" jdbcType="INTEGER" property="payCount" />
+      <result column="pay_status" property="payStatus" />
+      </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    medical_list_id, employee_id, patient_id, check_id, remark, record_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from medical_list
+    where medical_list_id = #{medicalListId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from medical_list
+    where medical_list_id = #{medicalListId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ncu.pojo.common.MedicalListInfo">
+    insert into medical_list (medical_list_id, employee_id, patient_id, 
+      outpatient_id, remark, record_time
+      )
+    values (#{medicalListId,jdbcType=VARCHAR},
+     (SELECT employee_id from employee_info where name = #{doctorName}),
+    (SELECT patient_id from patient_info where patient_name = #{patientName}),
+      #{outpatientId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{recordTime,jdbcType=TIMESTAMP}
+
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ncu.pojo.common.MedicalList">
+    insert into medical_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="medicalListId != null">
+        medical_list_id,
+      </if>
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="checkId != null">
+        check_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="recordTime != null">
+        record_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="medicalListId != null">
+        #{medicalListId,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkId != null">
+        #{checkId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null">
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.pojo.common.MedicalList">
+    update medical_list
+    <set>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkId != null">
+        check_id = #{checkId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null">
+        record_time = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where medical_list_id = #{medicalListId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ncu.pojo.common.MedicalList">
+    update medical_list
+    set employee_id = #{employeeId,jdbcType=VARCHAR},
+      patient_id = #{patientId,jdbcType=VARCHAR},
+      check_id = #{checkId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      record_time = #{recordTime,jdbcType=TIMESTAMP}
+    where medical_list_id = #{medicalListId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,41 +1,39 @@
-package com.ncu.outpatient.controller;
+package com.ncu.drug.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ncu.common.utils.JwtUtil;
-import com.ncu.outpatient.service.PatientService;
+import com.ncu.drug.pojo.Drug;
+import com.ncu.drug.service.DrugService;
 import com.ncu.pojo.common.Patient;
-import com.ncu.pojo.common.Result;
 import com.ncu.pojo.common.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.ncu.pojo.common.Result;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-/**
- * @author : 城南有梦
- * @date : 2020-07-07 15:40:49
- * @description:
- */
 @RestController
 @RequestMapping("/api")
-public class PatientController {
+public class DrugController {
     @Autowired
-    PatientService patientService;
+    private DrugService drugService;
 
-    @GetMapping(value = "/patients/{id}")
-    public Result<Patient> findPatientById(@PathVariable("id") String id){
-        //根据id获取患者对象
-        Patient patient = patientService.getPatientById(id);
+//    @GetMapping("/drug/{id}")
+//    public Drug queryById(@PathVariable String id) { return drugService.queryById(id);}
+
+    @GetMapping("/drugs/{id}")
+    public Result<Drug> findDrugById(@PathVariable("id") String id){
+        //根据id获取药品对象
+        Drug drug = drugService.findDrugById(id);
         //创建返回结果
-        Result<Patient> result = new Result<>();
-        if(patient!=null){
+        Result<Drug> result = new Result<>();
+        if(drug!=null){
             //正确获取到了 默认正确 只需要传入数据即可
-            result.setData(patient);
+            result.setData(drug);
         }else{
             //没有获取到 设置flag code message data
             result.setFlag(false);
@@ -46,10 +44,10 @@ public class PatientController {
         return result;
     }
 
-    @GetMapping(value = "/patients")
-    public Result<List<Patient>> getAllPatient(){
-        Result<List<Patient>> result = new Result<>();
-        List<Patient> list = patientService.getAllPatient();
+    @GetMapping("/drugs")
+    public Result<List<Drug>> getAllDrug(){
+        Result<List<Drug>> result = new Result<>();
+        List<Drug> list = drugService.getAllDrug();
         if(list!=null){
             //正确获取到了
             result.setData(list);
@@ -62,20 +60,36 @@ public class PatientController {
         }
         return result;
     }
-
-    @PostMapping(value = "/patients")
-    public Result<String> applyNewCard(@RequestBody Patient patient){
-        //注入id等用户信息
-        patient.setPatientId(UUID.randomUUID().toString().replace("-",""));
+    @PostMapping("/drugs")
+    public Result<String> applyNewDrug(@RequestBody Drug drug){
+        //设置药品名称
+        drug.setDrugName(drug.getDrugName());
+        //设置药品编号
+        drug.setDrugCode(drug.getDrugCode());
+        //设置药品规格
+        drug.setUnit(drug.getUnit());
+        //设置药品目录
+        drug.setDrugCatalog(drug.getDrugCode());
+        //设置药品价格
+        drug.setPrice((drug.getPrice()));
+        //设置药品库存
+        drug.setStorage(drug.getStorage());
         //设置删除标志
-        patient.setDelFlag("0");
-        //设置更新时间
-        patient.setUpdateTime(new Date());
+        drug.setDelFlag("0");
+        //设置备注内容
+        drug.setRemark(drug.getRemark());
+
+
+
+//        //设置更新时间
+//        patient.setUpdateTime(new Date());
+
+
         Result<String> result = new Result<>();
         //插入是否成功的判断
-        if(patientService.register(patient)!=0){
+        if(drugService.addDrug(drug)!=0){
             //成功插入
-            result.setData(patient.getPatientId());
+            result.setData(drug.getDrugId());
         }else {
             //插入失败
             result.setFlag(false);
@@ -85,20 +99,29 @@ public class PatientController {
         }
         return result;
     }
+    /**                                               从这里继续工作                             */
+
+    //通用mapper没有insertBatch
+    //需要写xml
 
 
-    @PostMapping(value = "/patients/batch")
-    public Result<List<String>> applyNewCardBatch(@RequestBody JSONObject batchData){
+
+    @PostMapping(value = "/drugs/batch")
+    public Result<List<String>> addNewDrugBatch(@RequestBody JSONObject batchData){
         Result<List<String>> result = new Result<>();
         //获取数据
         JSONArray array = batchData.getJSONArray("batch_data");
         //json array转list
-        List<Patient> patientList = JSONObject.parseArray(array.toJSONString(),Patient.class);
+        List<Drug> drugList = JSONObject.parseArray(array.toJSONString(),Drug.class);
         List<String> ids = new ArrayList<>();
         //解析传过来的批量数据
-        for(int i = 0;i<patientList.size();i++){
-            Patient patient = patientList.get(i);
+        for(int i = 0;i<drugList.size();i++){
+
+/*
+            Drug drug = drugList.get(i);
             //注入id等用户信息
+
+
             String id = UUID.randomUUID().toString().replace("-","");
             patient.setPatientId(id);
             ids.add(id);
@@ -107,9 +130,33 @@ public class PatientController {
             //设置更新时间
             patient.setUpdateTime(new Date());
             patientList.set(i,patient);
+
+*/
+
+            Drug drug = drugList.get(i);
+            //drug id自增 不用设置？
+            //设置药品名称
+            drug.setDrugName(drug.getDrugName());
+            //设置药品编号
+            drug.setDrugCode(drug.getDrugCode());
+            //设置药品规格
+            drug.setUnit(drug.getUnit());
+            //设置药品目录
+            drug.setDrugCatalog(drug.getDrugCode());
+            //设置药品价格
+            drug.setPrice((drug.getPrice()));
+            //设置药品库存
+            drug.setStorage(drug.getStorage());
+            //设置删除标志
+            drug.setDelFlag("0");
+            //设置备注内容
+            drug.setRemark(drug.getRemark());
+
+            drugList.set(i,drug);
+
         }
 
-        if(patientService.registerBatch(patientList)!=0){
+        if(drugService.addDrugBatch(drugList)!=0){
             //成功插入
             result.setData(ids);
         }else{
@@ -122,10 +169,14 @@ public class PatientController {
         return result;
     }
 
-    @RequestMapping(value = "/patients/{id}",method = RequestMethod.DELETE)
-    public Result<String> recoveryCard(@PathVariable("id")String id){
+
+
+
+
+    @RequestMapping(value = "/drugs/{id}",method = RequestMethod.DELETE)
+    public Result<String> recoveryDrug(@PathVariable("id")String id){
         Result<String> result = new Result<>();
-        if(patientService.deletePatient(id)!=0){
+        if(drugService.deleteDrug(id)!=0){
             //删除成功
             result.setData("删除成功");
         }else{
@@ -138,15 +189,17 @@ public class PatientController {
         return result;
     }
 
-    @RequestMapping(value = "/patients/batch",method = RequestMethod.DELETE)
-    public Result<String> recoveryCardByBatch(@RequestBody JSONObject batchData){
+
+
+    @RequestMapping(value = "/drugs/batch",method = RequestMethod.DELETE)
+    public Result<String> deleteDrugBatch(@RequestBody JSONObject batchData){
         Result<String> result = new Result<>();
         JSONArray datas = batchData.getJSONArray("batch_data");
         List<String> ids = new ArrayList<>();
         for(int i = 0;i<datas.size();i++){
             ids.add(datas.get(i).toString());
         }
-        if(patientService.deleteBatch(ids)!=0){
+        if(drugService.deleteBatch(ids)!=0){
             //删除成功
             result.setData("删除成功");
         }else{
@@ -159,12 +212,14 @@ public class PatientController {
         return result;
     }
 
-    @RequestMapping(value = "/patients/{id}",method = RequestMethod.PUT)
-    public Result<String> updatePatientInfo(@RequestBody Patient patient,@PathVariable("id")String id){
+
+
+    @RequestMapping(value = "/drugs/{id}",method = RequestMethod.PUT)
+    public Result<String> updatePatientInfo(@RequestBody Drug drug,@PathVariable("id")String id){
         Result<String> result = new Result<>();
-        patient.setUpdateTime(new Date());
-        patient.setPatientId(id);
-        if(patientService.updateSelective(patient)!=0){
+//        drug.setUpdateTime(new Date());
+        drug.setDrugId(id);
+        if(drugService.updateSelective(drug)!=0){
             //修改成功
             result.setData("修改成功");
         }else{
@@ -177,15 +232,16 @@ public class PatientController {
         return result;
     }
 
+
     @GetMapping(value = "/tokens/{id}")
     public Result<String> login(@PathVariable("id") String id){
         Result<String> result = new Result<>();
         //根据id查询用户
-        Patient patient= patientService.getPatientById(id);
-        if(patient!=null){
+        Drug drug= drugService.findDrugById(id);
+        if(drug!=null){
             //生成token
             try {
-                String token = JwtUtil.genToken(id,patient.getPatientName());
+                String token = JwtUtil.genToken(id,drug.getDrugName());
                 result.setData(token);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -197,9 +253,10 @@ public class PatientController {
         }else{
             result.setCode(StatusCode.LOGINERROR);
             result.setFlag(false);
-            result.setMessage("卡号错误");
+            result.setMessage("药品ID错误");
             result.setData(null);
         }
         return result;
     }
+
 }
