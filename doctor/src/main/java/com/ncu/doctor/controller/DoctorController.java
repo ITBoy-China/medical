@@ -123,7 +123,7 @@ public class DoctorController {
         Result<String> result = new Result<>();
         OutPatient outPatient=new OutPatient();
         outPatient.setCheckTime(new Date());
-        outPatient.setStatus(id);
+        outPatient.setOutpatientId(id);
         if(doctorService.updateStatus(outPatient)!=0){
             //修改成功
             result.setData("修改成功");
