@@ -17,4 +17,6 @@ public interface DoctorService {
 
     //生成处方单
     int addMedicalList(MedicalListInfo medicalListInfos);
+    //通过部门名称查询所有的所属医生姓名
+    List<Employee> findAllBelongDoctor(String departName);
 }

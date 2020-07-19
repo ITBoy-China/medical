@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * com.ncu.doctor.controller
@@ -32,7 +33,7 @@ public class DoctorController {
         return 0;
     }
 
-    @GetMapping(value = "/doctor")
+    @GetMapping(value = "/casedisplay")
     public Result<List<CaseDisplay>> getAllCaseInfo(){
         Result<List<CaseDisplay>> result = new Result<>();
         List<CaseDisplay> list = doctorService.findAllCaseInfo();
@@ -62,5 +63,22 @@ public class DoctorController {
         }
         return result;
     }
+
+    @GetMapping(value = "/doctor/depart/{depart}")
+
+    public Result<List<String>> getAllBelongDoctor(@PathVariable("depart") String departName){
+        Result<List<String>> result = new Result<>();
+        List<Employee> doctors = doctorService.findAllBelongDoctor(departName);
+        List<String> doctornameList = doctors.stream().map(Employee -> Employee.getName()).collect(Collectors.toList());
+        if(doctornameList!=null){
+            //正确获取到了
+            result.setData(doctornameList);
+        }else{
+            //获取失败
+            SetErrorMessage(result);
+        }
+        return result;
+    }
+
 
 }

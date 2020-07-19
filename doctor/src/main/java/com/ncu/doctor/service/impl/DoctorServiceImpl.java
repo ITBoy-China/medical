@@ -25,6 +25,10 @@ public class DoctorServiceImpl  implements DoctorService {
     private CaseDisplayMapper caseDisplayMapper;
     @Resource
     private RecordMapper recordMapper;
+    @Resource
+    private  DepartmentMapper departmentMapper;
+    @Resource
+    private EmployeeMapper employeeMapper;
 
     @Override
     public  int addMedicalList(MedicalListInfo medicalListInfos){
@@ -51,6 +55,9 @@ public class DoctorServiceImpl  implements DoctorService {
     public List<CaseDisplay> findAllCaseInfo(){
         return caseDisplayMapper.selectAllCaseInfo();
     }
-
-
+    @Override
+    public  List<Employee> findAllBelongDoctor(String departName) {
+        String departId = departmentMapper.selectBelongDoctor(departName).getDepartId();
+        return employeeMapper.selectByPrimaryKey(departId);
+    }
 }
