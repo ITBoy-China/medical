@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.drug.mapper.RecordMapper">
+
+    <!--<resultMap id="BaseResultMap" type="com.ncu.drug.pojo.Drug">
+        <id column="drug_id" jdbcType="VARCHAR" property="drugId" />
+        <result column="drug_name" jdbcType="VARCHAR" property="drugName" />
+        <result column="drug_code" jdbcType="INTEGER" property="drugCode" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="drug_catalog" jdbcType="VARCHAR" property="drugCatalog" />
+        <result column="price" jdbcType="DOUBLE" property="price" />
+        <result column="storage" jdbcType="INTEGER" property="storage" />
+        <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>-->
+
+    <sql id="Base_Column_List">
+    record_id,employee_id,medical_list_id,record_date,drug_id,pay_count,pay_status
+  </sql>
+    <!--修改发药状态-->
+    <update id="updatePayStatusByMid" parameterType="java.lang.String">
+        update check_purchase_records set pay_status='3'
+        where medical_list_id=#{medicalListId} and pay_status='1';
+    </update>
+
+
+</mapper>
