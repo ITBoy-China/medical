@@ -1,16 +1,18 @@
 package com.ncu.outpatient.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ncu.common.utils.IdGenerator;
 import com.ncu.common.utils.impl.OutPatientIdGr;
 import com.ncu.outpatient.service.DepartmentService;
+import com.ncu.outpatient.service.EmployeeService;
 import com.ncu.outpatient.service.OutPatientService;
-import com.ncu.pojo.common.OutPatient;
-import com.ncu.pojo.common.Result;
-import com.ncu.pojo.common.StatusCode;
+import com.ncu.pojo.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author : 城南有梦
@@ -25,15 +27,24 @@ public class OutPatientController {
     private OutPatientService outPatientService;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private EmployeeService employeeService;
 
     /**
      * 病人门诊挂号
-     * @param outPatient
+     * @param data
      * @return
      */
     @PostMapping(value = "/outpatients")
-    public Result<String> makeAppointment(@RequestBody OutPatient outPatient){
+    public Result<String> makeAppointment(@RequestBody JSONObject data) {
         Result<String> result = new Result<>();
+        OutPatient outPatient = new OutPatient();
+        outPatient.setDepartId(data.getString("departId"));
+        outPatient.setPatientId(data.getString("patientId"));
+        outPatient.setRegisterPrice(Double.parseDouble(data.getString("registerPrice")));
+        String name = data.getString("employeeName");
+        Employee employee = employeeService.findByNameAndDepart(name,outPatient.getDepartId());
+        outPatient.setEmployeeId(employee.getEmployeeId());
         IdGenerator idGenerator = new OutPatientIdGr();
         //生成用户挂号id,并写入outPatient对象
         //获取科室编号
@@ -76,6 +87,22 @@ public class OutPatientController {
             result.setCode(StatusCode.ERROR);
             result.setFlag(false);
             result.setMessage("退号失败");
+            result.setData(null);
+        }
+        return result;
+    }
+
+    @GetMapping(value = "/outpatientInfos/patients/{id}")
+    public Result<List<OutpatientInfo>> getAppointments(@PathVariable("id") String id){
+        Result<List<OutpatientInfo>> result = new Result<>();
+        List<OutpatientInfo> rs = outPatientService.queryByStatus(id);
+        if(rs!=null){
+            result.setData(rs);
+        }else{
+            //查询失败
+            result.setCode(StatusCode.ERROR);
+            result.setFlag(false);
+            result.setMessage("查询失败");
             result.setData(null);
         }
         return result;

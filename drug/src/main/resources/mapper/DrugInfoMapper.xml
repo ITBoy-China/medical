@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.drug.mapper.DrugInfoMapper">
+    <resultMap id="BaseResultMap" type="com.ncu.drug.pojo.DrugInfo">
+
+        <result column="medicalListId" property="medicalListId"/>
+        <result column="patientName" property="patientName"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="recordTime" property="recordTime"/>
+        <result column="drugName" property="drugName"/>
+        <result column="payCount" property="payCount"/>
+        <result column="payStatus" property="payStatus"/>
+
+    </resultMap>
+
+    <select id="queryDrugInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select m_l.medical_list_id as medicalListId,
+p_i.patient_name as patientName,
+p_i.age,p_i.sex,
+m_l.record_time as recordTime,
+d_i.drug_name as drugName,
+c_p_r.pay_count as payCount,
+c_p_r.pay_status as payStatus
+from medical_list m_l join patient_info p_i on
+m_l.patient_id=p_i.patient_id join check_purchase_records c_p_r
+on m_l.medical_list_id=c_p_r.medical_list_id
+join drug_info d_i on c_p_r.drug_id=d_i.drug_id
+where m_l.patient_id = #{medicalListId};
+    </select>
+</mapper>

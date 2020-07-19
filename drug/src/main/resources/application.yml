@@ -7,7 +7,7 @@ spring:
     username: ncu
     password: ncu2017
   application:
-    name: drug-service
+    name: drug
 
 #mybatis设置
 #如果仅仅是用通用mapper的话，驼峰命名是默认开启的，但如果要与

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ncu.outpatient.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.ncu.pojo.common.Employee">
+        <id column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+        <result column="job_id" jdbcType="VARCHAR" property="jobId" />
+        <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <select id="findByNameAndDepart" resultMap="BaseResultMap">
+        select * from employee_info where name = #{name} and depart_id = #{departId}
+    </select>
+</mapper>

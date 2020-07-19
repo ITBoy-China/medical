@@ -25,6 +25,7 @@ public class DrugController {
 //    @GetMapping("/drug/{id}")
 //    public Drug queryById(@PathVariable String id) { return drugService.queryById(id);}
 
+
     @GetMapping("/drugs/{id}")
     public Result<Drug> findDrugById(@PathVariable("id") String id){
         //根据id获取药品对象
@@ -63,8 +64,8 @@ public class DrugController {
     @PostMapping("/drugs")
     public Result<String> applyNewDrug(@RequestBody Drug drug){
         //设置药品名称
-        drug.setDrugName(drug.getDrugName());
-        //设置药品编号
+        drug.setDrugName(drug.getDrugId());
+        //设置药品编号s
         drug.setDrugCode(drug.getDrugCode());
         //设置药品规格
         drug.setUnit(drug.getUnit());
@@ -258,5 +259,6 @@ public class DrugController {
         }
         return result;
     }
+
 
 }

@@ -10,10 +10,11 @@ import java.util.Date;
 @Data
 @Table(name = "drug_info")
 public class Drug {
-    // id
+
     @Id
-    //开启主键自动回填
+    //主键
     @KeySql(useGeneratedKeys = true)
+    //开启主键自动回填
     private String drugId;
 
     // 药品名

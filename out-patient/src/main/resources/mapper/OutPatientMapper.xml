@@ -139,4 +139,23 @@
       check_price = #{checkPrice,jdbcType=DOUBLE}
     where outpatient_id = #{outpatientId,jdbcType=VARCHAR}
   </update>
+
+    <resultMap id="OutPatientInfoResultMap" type="com.ncu.pojo.common.OutpatientInfo">
+        <result property="outpatientId" column="outpatientId"/>
+        <result property="patientName" column="patientName"/>
+        <result property="name" column="name"/>
+        <result property="departName" column="departName"/>
+        <result property="registerTime" column="registerTime"/>
+    </resultMap>
+
+    <select id="selectByStatus" resultMap="OutPatientInfoResultMap" parameterType="java.lang.String">
+        select o_i.outpatient_id as outpatientId,
+        p_i.patient_name as patientName,
+        e_i.name,
+        d_i.depart_name as departName,
+        o_i.register_time as registerTime
+from outpatient_info o_i join employee_info e_i on o_i.employee_id=e_i.employee_id
+join depart_info d_i on e_i.depart_id = d_i.depart_id join patient_info p_i on p_i.patient_id=o_i.patient_id
+where o_i.patient_id = #{id} and o_i.status = '0';
+    </select>
 </mapper>

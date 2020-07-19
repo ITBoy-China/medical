@@ -1,6 +1,9 @@
 package com.ncu.outpatient.service;
 
 import com.ncu.pojo.common.OutPatient;
+import com.ncu.pojo.common.OutpatientInfo;
+
+import java.util.List;
 
 /**
  * @author : 城南有梦
@@ -14,4 +17,7 @@ public interface OutPatientService {
 
     // 门诊退号
     int giveUpNumber(OutPatient outPatient);
+
+    //查询挂号但是没有就诊的挂号信息
+    List<OutpatientInfo> queryByStatus(String id);
 }

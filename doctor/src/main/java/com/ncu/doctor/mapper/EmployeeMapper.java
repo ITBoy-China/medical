@@ -9,4 +9,6 @@ public interface EmployeeMapper {
 
    List<Employee> selectByPrimaryKey(String employeeId);
 
+   Employee queryByNameAndPwd(Employee employee);
+
 }

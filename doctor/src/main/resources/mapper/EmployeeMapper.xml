@@ -27,4 +27,11 @@
     where depart_id = #{departId,jdbcType=VARCHAR}
   </select>
 
+  <!--根据用户名和密码查询用户-->
+  <select id="queryByNameAndPwd" parameterType="com.ncu.pojo.common.Employee" resultType="com.ncu.pojo.common.Employee">
+    select
+    <include refid="Base_Column_List"></include>
+    from employee_info
+    where user_name=#{userName} and user_pwd=#{userPwd}
+  </select>
 </mapper>
