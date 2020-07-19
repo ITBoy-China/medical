@@ -74,3 +74,4 @@ gateway:
       - /v2/api-docs
       - /out/api/tokens
       - /csrf
+      - /doct/api/doctor/tokens

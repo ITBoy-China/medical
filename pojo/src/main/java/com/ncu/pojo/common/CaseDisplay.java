@@ -18,6 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class CaseDisplay {
 
+    private String  outPatientId;
+
     private String patientName;
 
     private Integer age;
