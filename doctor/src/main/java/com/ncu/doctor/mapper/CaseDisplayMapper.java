@@ -2,6 +2,7 @@ package com.ncu.doctor.mapper;
 
 import com.ncu.pojo.common.CaseDisplay;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,4 +13,12 @@ import java.util.List;
  */
 public interface CaseDisplayMapper {
     List<CaseDisplay> selectAllCaseInfo();
+
+    List<CaseDisplay> selectAllCaseInfoAboutDoctor(String doctorName);
+    List<CaseDisplay> selectAllCaseInfoAboutInfo(String doctorName, String patientName, String status, Date registerTime);
+
+
+    CaseDisplay selectAllCaseInfoByOut(String outPatientId);
+
+
 }

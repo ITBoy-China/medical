@@ -29,6 +29,13 @@ public class DoctorServiceImpl  implements DoctorService {
     private  DepartmentMapper departmentMapper;
     @Resource
     private EmployeeMapper employeeMapper;
+    @Resource
+    private  DrugMapper drugMapper;
+    @Resource
+    private UserDoctorMapper userDoctorMapper;
+    @Resource
+    private OutPatientMapper outPatientMapper;
+
 
     @Override
     public  int addMedicalList(MedicalListInfo medicalListInfos){
@@ -56,8 +63,41 @@ public class DoctorServiceImpl  implements DoctorService {
         return caseDisplayMapper.selectAllCaseInfo();
     }
     @Override
+    public List<CaseDisplay> findAllCaseInfoAboutDoctor(String doctorName){
+        return caseDisplayMapper.selectAllCaseInfoAboutDoctor(doctorName);
+    }
+    @Override
     public  List<Employee> findAllBelongDoctor(String departName) {
         String departId = departmentMapper.selectBelongDoctor(departName).getDepartId();
         return employeeMapper.selectByPrimaryKey(departId);
+    }
+    @Override
+    public Employee findByPrimaryId(String employeeId){
+        return employeeMapper.selectByPrimaryId(employeeId);
+    }
+
+    @Override
+    public Employee testLogin(String userName,String userPwd){
+        return employeeMapper.checkLogin(userName,userPwd);
+    }
+    @Override
+    public CaseDisplay findAllCaseInfoByOut(String outPatientId){
+        return caseDisplayMapper.selectAllCaseInfoByOut(outPatientId);
+    }
+    @Override
+    public  Drug findAboutDrug(String drugName){
+        return drugMapper.selectDrugByName(drugName);
+    }
+    @Override
+    public  UserDoctor findUserDoctor(String userName){
+        return userDoctorMapper.selectInfoByUser(userName);
+    }
+   @Override
+    public List<CaseDisplay> findCaseInfoAboutInfo(String doctorName, String patientName, String status, Date registerTime){
+        return caseDisplayMapper.selectAllCaseInfoAboutInfo(doctorName,patientName, status, registerTime);
+    }
+    @Override
+    public int updateStatus(OutPatient outPatient){
+        return outPatientMapper.updateStatusByPrimaryKey(outPatient);
     }
 }
