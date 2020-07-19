@@ -3,9 +3,11 @@ package com.ncu.outpatient.service.impl;
 import com.ncu.outpatient.mapper.OutPatientMapper;
 import com.ncu.outpatient.service.OutPatientService;
 import com.ncu.pojo.common.OutPatient;
+import com.ncu.pojo.common.OutpatientInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author : 城南有梦
@@ -24,5 +26,10 @@ public class OutPatientServiceImpl implements OutPatientService {
     @Override
     public int giveUpNumber(OutPatient outPatient) {
         return outPatientMapper.updateByPrimaryKeySelective(outPatient);
+    }
+
+    @Override
+    public List<OutpatientInfo> queryByStatus(String id) {
+        return outPatientMapper.selectByStatus(id);
     }
 }

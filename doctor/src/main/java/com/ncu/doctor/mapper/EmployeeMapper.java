@@ -12,4 +12,6 @@ public interface EmployeeMapper {
    Employee checkLogin(String userName,String userPwd);
 
 
+   Employee queryByNameAndPwd(Employee employee);
+
 }

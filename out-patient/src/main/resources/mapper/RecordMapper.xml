@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.outpatient.mapper.RecordMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.pojo.common.Record">
+    <id column="record_id" jdbcType="VARCHAR" property="recordId" />
+    <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+    <result column="medical_list_id" jdbcType="VARCHAR" property="medicalListId" />
+    <result column="record_date" jdbcType="TIMESTAMP" property="recordDate" />
+    <result column="drug_id" jdbcType="VARCHAR" property="drugId" />
+    <result column="pay_count" jdbcType="INTEGER" property="payCount" />
+    <result column="pay_status" jdbcType="CHAR" property="payStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    record_id, employee_id, medical_list_id, record_date, drug_id, pay_count, pay_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_purchase_records
+    where record_id = #{recordId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from check_purchase_records
+    where record_id = #{recordId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ncu.pojo.common.Record">
+    insert into check_purchase_records (record_id, employee_id, medical_list_id, 
+      record_date, drug_id, pay_count, 
+      pay_status)
+    values (#{recordId,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR}, #{medicalListId,jdbcType=VARCHAR}, 
+      #{recordDate,jdbcType=TIMESTAMP}, #{drugId,jdbcType=VARCHAR}, #{payCount,jdbcType=INTEGER}, 
+      #{payStatus,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ncu.pojo.common.Record">
+    insert into check_purchase_records
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="medicalListId != null">
+        medical_list_id,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="drugId != null">
+        drug_id,
+      </if>
+      <if test="payCount != null">
+        pay_count,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalListId != null">
+        #{medicalListId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drugId != null">
+        #{drugId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCount != null">
+        #{payCount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.pojo.common.Record">
+    update check_purchase_records
+    <set>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalListId != null">
+        medical_list_id = #{medicalListId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drugId != null">
+        drug_id = #{drugId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCount != null">
+        pay_count = #{payCount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ncu.pojo.common.Record">
+    update check_purchase_records
+    set employee_id = #{employeeId,jdbcType=VARCHAR},
+      medical_list_id = #{medicalListId,jdbcType=VARCHAR},
+      record_date = #{recordDate,jdbcType=TIMESTAMP},
+      drug_id = #{drugId,jdbcType=VARCHAR},
+      pay_count = #{payCount,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=CHAR}
+    where record_id = #{recordId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateSelective" parameterType="com.ncu.pojo.common.Record">
+    update check_purchase_records
+    <set>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payCount != null">
+        pay_count = #{payCount,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where medical_list_id = #{medicalListId} and drug_id = #{drugId}
+  </update>
+</mapper>

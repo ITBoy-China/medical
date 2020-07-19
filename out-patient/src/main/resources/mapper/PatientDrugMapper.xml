@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ncu.outpatient.mapper.PatientDrugMapper">
+    <resultMap id="BaseResultMap" type="com.ncu.pojo.common.PatientDrug">
+        <result column="mListId" property="mListId"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="drugId" property="drugId"/>
+        <result column="nums" property="nums"/>
+        <result column="unit" property="unit"/>
+        <result column="amount" property="amount"/>
+        <result column="unitPrice" property="unitPrice"/>
+        <result column="feature" property="feature"/>
+    </resultMap>
+    
+    <select id="findDrugsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  mess.medical_list_id as mListId,
+				c_p_r.drug_id as code,
+        d_i.drug_name as name,
+		d_i.drug_id as drugId,
+        c_p_r.pay_count as nums,
+        d_i.unit as unit,
+        (c_p_r.pay_count*d_i.price) as amount,
+        d_i.price as unitPrice,
+        patient_info.patient_feature as feature
+        from check_purchase_records c_p_r join drug_info d_i on c_p_r.drug_id = d_i.drug_id
+        join
+        ((select medical_list_id,patient_id from medical_list where outpatient_id = #{id}
+        order by record_time desc limit 1) mess join patient_info on mess.patient_id = patient_info.patient_id)
+        on c_p_r.medical_list_id = mess.medical_list_id where c_p_r.pay_status='0';
+    </select>
+</mapper>

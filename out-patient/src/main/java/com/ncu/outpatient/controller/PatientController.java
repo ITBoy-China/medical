@@ -3,8 +3,10 @@ package com.ncu.outpatient.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ncu.common.utils.JwtUtil;
+import com.ncu.outpatient.service.PatientDrugService;
 import com.ncu.outpatient.service.PatientService;
 import com.ncu.pojo.common.Patient;
+import com.ncu.pojo.common.PatientDrug;
 import com.ncu.pojo.common.Result;
 import com.ncu.pojo.common.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import java.util.*;
 public class PatientController {
     @Autowired
     PatientService patientService;
+    @Autowired
+    PatientDrugService patientDrugService;
 
     @GetMapping(value = "/patients/{id}")
     public Result<Patient> findPatientById(@PathVariable("id") String id){
@@ -198,6 +202,23 @@ public class PatientController {
             result.setCode(StatusCode.LOGINERROR);
             result.setFlag(false);
             result.setMessage("卡号错误");
+            result.setData(null);
+        }
+        return result;
+    }
+
+    @GetMapping("/PatientDrugs/{id}")
+    public Result<List<PatientDrug>> getPatientDrugs(@PathVariable("id") String id){
+        Result<List<PatientDrug>> result = new Result<>();
+        List<PatientDrug> rs = patientDrugService.findDrugsById(id);
+        if(rs!=null){
+            //获取成功
+            result.setData(rs);
+        }else{
+            //获取失败
+            result.setFlag(false);
+            result.setCode(StatusCode.ERROR);
+            result.setMessage("执行失败");
             result.setData(null);
         }
         return result;

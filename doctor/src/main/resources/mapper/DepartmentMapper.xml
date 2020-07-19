@@ -8,6 +8,8 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
 
+
+
   <select id="selectBelongDoctor" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select
     depart_id
@@ -15,5 +17,8 @@
     where depart_name = #{departName,jdbcType=VARCHAR}
   </select>
 
+  <select id="findAllDepartments" resultMap="BaseResultMap">
+        select * from depart_info
+  </select>
 
 </mapper>
