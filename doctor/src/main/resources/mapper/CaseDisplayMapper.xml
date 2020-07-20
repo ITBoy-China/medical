@@ -42,10 +42,10 @@
             <if test="doctorName != null">
                 AND name= #{doctorName}
             </if>
-            <if test="patientName != null and patientName!='' " >
+            <if test="patientName != null and patientName!=' '.toString() " >
                 AND patient_name LIKE '%${patientName}%'
             </if>
-            <if test="status != null and status!='' " >
+            <if test="status != null and status!=' '.toString() " >
                 AND status=#{status}
             </if>
         </where>
