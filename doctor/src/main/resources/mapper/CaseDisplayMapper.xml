@@ -12,14 +12,52 @@
         <result column="del_flag" jdbcType="CHAR" property="delFlag" />
         <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
         <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="outpatient_id" jdbcType="VARCHAR" property="outPatientId" />
         <result column="depart_name" jdbcType="VARCHAR" property="departName" />
     </resultMap>
     <select id="selectAllCaseInfo"  resultMap="BaseResultMap">
             select patient_name,P.age,P.sex,P.phone,patient_feature,
-            name ,depart_name,register_time,status,P.del_flag
+            name ,depart_name,register_time,status,P.del_flag,outpatient_id
             from depart_info D RIGHT JOIN employee_info E on E.depart_id = D.depart_id
-            left join outpatient_info O on  O.employee_id = E.employee_id
-            right JOIN patient_info as P on P.patient_id = O.patient_id
+            right join outpatient_info O on  O.employee_id = E.employee_id
+            left JOIN patient_info as P on P.patient_id = O.patient_id
+            where P.del_flag=0
 
+    </select>
+    <select id="selectAllCaseInfoAboutDoctor"  resultMap="BaseResultMap" parameterType="java.lang.String">
+            select patient_name,P.age,P.sex,P.phone,patient_feature,
+            name ,depart_name,register_time,status,P.del_flag,outpatient_id
+            from depart_info D RIGHT JOIN employee_info E on E.depart_id = D.depart_id
+            right join outpatient_info O on  O.employee_id = E.employee_id
+            left JOIN patient_info as P on P.patient_id = O.patient_id
+            where name = #{doctorName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAllCaseInfoAboutInfo"  resultMap="BaseResultMap" parameterType="java.lang.String">
+            select patient_name,P.age,P.sex,P.phone,patient_feature,
+            name ,depart_name,register_time,status,P.del_flag,outpatient_id
+            from depart_info D RIGHT JOIN employee_info E on E.depart_id = D.depart_id
+            right join outpatient_info O on  O.employee_id = E.employee_id
+            left JOIN patient_info as P on P.patient_id = O.patient_id
+        <where>
+            <if test="doctorName != null">
+                AND name= #{doctorName}
+            </if>
+            <if test="patientName != null and patientName!=' '.toString() " >
+                AND patient_name LIKE '%${patientName}%'
+            </if>
+            <if test="status != null and status!=' '.toString() " >
+                AND status=#{status}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="selectAllCaseInfoByOut"  resultMap="BaseResultMap" parameterType="java.lang.String">
+            select patient_name,P.age,P.sex,P.phone,patient_feature,
+            name ,depart_name,register_time,status,P.del_flag,outpatient_id
+            from depart_info D RIGHT JOIN employee_info E on E.depart_id = D.depart_id
+            right join outpatient_info O on  O.employee_id = E.employee_id
+            left JOIN patient_info as P on P.patient_id = O.patient_id
+            where outpatient_id = #{outPatientId,jdbcType=VARCHAR}
     </select>
 </mapper>

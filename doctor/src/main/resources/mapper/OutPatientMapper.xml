@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.doctor.mapper.OutPatientMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.pojo.common.OutPatient">
+    <id column="outpatient _id" jdbcType="VARCHAR" property="outpatientId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+    <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="register_price" jdbcType="DOUBLE" property="registerPrice" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="check_price" jdbcType="DOUBLE" property="checkPrice" />
+  </resultMap>
+
+
+  <update id="updateStatusByPrimaryKey" parameterType="com.ncu.pojo.common.OutPatient" >
+    update outpatient_info
+    set
+      status = status+1,
+    check_time = #{checkTime}
+    <where>
+      <if test="outpatientId != null and outpatientId!='' ">
+        outpatient_id=#{outpatientId}
+      </if>
+    </where>
+  </update>
+</mapper>

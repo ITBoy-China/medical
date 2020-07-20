@@ -26,7 +26,20 @@
     from employee_info
     where depart_id = #{departId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByPrimaryId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from employee_info
+    where employee_id = #{employeeId,jdbcType=VARCHAR}
+  </select>
 
+  <select id="checkLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from employee_info
+    where user_name = #{userName,jdbcType=VARCHAR} and
+    user_pwd = #{userPwd,jdbcType=VARCHAR}
+  </select>
   <!--根据用户名和密码查询用户-->
   <select id="queryByNameAndPwd" parameterType="com.ncu.pojo.common.Employee" resultType="com.ncu.pojo.common.Employee">
     select
