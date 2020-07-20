@@ -17,7 +17,8 @@
   <update id="updateStatusByPrimaryKey" parameterType="com.ncu.pojo.common.OutPatient" >
     update outpatient_info
     set
-      status = status+1
+      status = status+1,
+    check_time = #{checkTime}
     <where>
       <if test="outpatientId != null and outpatientId!='' ">
         outpatient_id=#{outpatientId}
